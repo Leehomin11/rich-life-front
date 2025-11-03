@@ -1,20 +1,67 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./login.css";
+
+const api = axios.create({
+  baseURL: "http://localhost:8080",
+  withCredentials: true,
+});
 
 function Login() {
   const [isLogin, setIsLogin] = useState(true);
-  const [form, setForm] = useState({ email: "", password: "", name: "" });
+  const [form, setForm] = useState({ email: "", name: "", password: "" });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (isLogin) {
-      console.log("로그인 시도:", form);
-    } else {
-      console.log("회원가입 시도:", form);
+    setError("");
+    setLoading(true);
+
+    try {
+      if (isLogin) {
+        const res = await api.post("/api/users/login", {
+          email: form.email,
+          password: form.password,
+        });
+        console.log("로그인 응답:", res.data);
+
+        const { id } = res.data;
+        if (id) {
+          console.log("저장할 userId:", id);
+          // ✅ 여기 수정됨: userId로 저장
+          localStorage.setItem("userId", id);
+          setLoading(false);
+          navigate("/diary");
+        } else {
+          throw new Error("사용자 ID가 응답에 포함되지 않았습니다.");
+        }
+      } else {
+        const res = await api.post("/api/users/signup", {
+          email: form.email,
+          name: form.name,
+          password: form.password,
+        });
+        console.log("회원가입 성공:", res.data);
+        alert("회원가입이 완료되었습니다. 로그인해주세요.");
+        setIsLogin(true);
+        setForm({ email: "", name: "", password: "" });
+        setLoading(false);
+      }
+    } catch (err) {
+      console.error("로그인 오류:", err.response?.status, err.response?.data);
+      const serverMsg =
+        err.response?.data?.message || err.response?.data || err.message;
+      setError(
+        typeof serverMsg === "string" ? serverMsg : JSON.stringify(serverMsg)
+      );
+      setLoading(false);
     }
   };
 
@@ -52,20 +99,43 @@ function Login() {
             className="auth-input"
             required
           />
-          <button type="submit" className="auth-button">
-            {isLogin ? "로그인" : "회원가입"}
+          {error && <p className="error-text">{error}</p>}
+          <button type="submit" className="auth-button" disabled={loading}>
+            {loading
+              ? isLogin
+                ? "로그인 중..."
+                : "회원가입 중..."
+              : isLogin
+              ? "로그인"
+              : "회원가입"}
           </button>
         </form>
         <p className="auth-toggle">
           {isLogin ? (
             <>
               계정이 없으신가요?{" "}
-              <span onClick={() => setIsLogin(false)}>회원가입</span>
+              <span
+                onClick={() => {
+                  setError("");
+                  setIsLogin(false);
+                }}
+                style={{ cursor: "pointer", color: "skyblue" }}
+              >
+                회원가입
+              </span>
             </>
           ) : (
             <>
               이미 계정이 있으신가요?{" "}
-              <span onClick={() => setIsLogin(true)}>로그인</span>
+              <span
+                onClick={() => {
+                  setError("");
+                  setIsLogin(true);
+                }}
+                style={{ cursor: "pointer", color: "skyblue" }}
+              >
+                로그인
+              </span>
             </>
           )}
         </p>
@@ -73,4 +143,5 @@ function Login() {
     </div>
   );
 }
+
 export default Login;
