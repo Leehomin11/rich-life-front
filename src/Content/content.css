@@ -1,0 +1,81 @@
+.news-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.news-body {
+  font-size: 0.9rem;
+  color: #ccc;
+  line-height: 1.4;
+  margin-bottom: 20px;
+}
+
+/* 시세 */
+.coin-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #333;
+  padding-top: 10px;
+  margin-top: 15px;
+}
+
+.coin-label {
+  font-size: 0.85rem;
+  color: #999;
+}
+
+.coin-price {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #00bfff;
+}
+
+/* 버튼 */
+.news-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.news-btn {
+  background-color: #000;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 6px;
+  padding: 5px 15px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.news-btn:hover {
+  background-color: white;
+  color: black;
+}
+
+/* 입력창 */
+.news-input,
+.news-textarea {
+  width: 100%;
+  background-color: #000;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 6px;
+  padding: 8px;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+
+.news-input:focus,
+.news-textarea:focus {
+  outline: none;
+  border-color: white;
+}
+
+.news-textarea {
+  min-height: 100px;
+  resize: none;
+}

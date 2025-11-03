@@ -1,0 +1,19 @@
+.navbar-box {
+  background-color: rgb(0, 0, 0);
+  top: 0;
+  /* width: 100% */
+  left: 0;
+  right: 0;
+  height: 60px;
+  display: flex;
+  position: fixed;
+  justify-content: center;
+}
+.navbar-logo {
+  margin-top: -15px;
+}
+.navbar-login {
+  color: white;
+  margin-top: 20px;
+  text-align: center;
+}

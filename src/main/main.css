@@ -1,0 +1,120 @@
+@import url("https://fonts.googleapis.com/css2?family=Righteous&display=swap");
+.main-wallpaper {
+  background-image: url("../img/wallpaper/pcwallpaper4.jpg");
+  background-size: 100%;
+}
+.wallpaper {
+  display: flex;
+}
+.title-box {
+  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  height: 700px;
+  width: 700px;
+  justify-content: center;
+}
+.image-box {
+  display: flex;
+  align-items: center;
+  height: 700px;
+  width: 700px;
+  justify-content: center;
+}
+.title {
+  position: flex;
+  font-size: 50px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.righteous-regular {
+  font-family: "Righteous", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+.main-button-cont {
+  display: flex;
+  margin: 3px;
+}
+
+.custom-btn {
+  margin-top: 40px;
+  width: 250px;
+  height: 40px;
+  padding: 10px 25px;
+  border: 2px solid #000;
+  font-family: "Lato", sans-serif;
+  font-weight: 500;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+}
+.btn-3 {
+  line-height: 39px;
+  padding: 0;
+}
+.btn-3:hover {
+  background: transparent;
+  color: #000;
+}
+.btn-3 span {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.btn-3:before,
+.btn-3:after {
+  position: absolute;
+  content: "";
+  left: 0;
+  top: 0;
+  background: #000;
+  transition: all 0.3s ease;
+}
+.btn-3:before {
+  height: 0%;
+  width: 2px;
+}
+.btn-3:after {
+  width: 0%;
+  height: 2px;
+}
+.btn-3:hover:before {
+  height: 100%;
+}
+.btn-3:hover:after {
+  width: 100%;
+}
+.btn-3 span:before,
+.btn-3 span:after {
+  position: absolute;
+  content: "";
+  right: 0;
+  bottom: 0;
+  background: #000;
+  transition: all 0.3s ease;
+}
+.btn-3 span:before {
+  width: 2px;
+  height: 0%;
+}
+.btn-3 span:after {
+  width: 0%;
+  height: 2px;
+}
+.btn-3 span:hover:before {
+  height: 100%;
+}
+.btn-3 span:hover:after {
+  width: 100%;
+}
+.small-text {
+  font-size: 10px;
+  color: gray;
+  white-space: pre-line;
+}
