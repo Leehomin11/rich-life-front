@@ -35,7 +35,6 @@ function Login() {
         const { id } = res.data;
         if (id) {
           console.log("저장할 userId:", id);
-          // ✅ 여기 수정됨: userId로 저장
           localStorage.setItem("userId", id);
           setLoading(false);
           navigate("/diary");

@@ -91,6 +91,7 @@
   border-color: #666;
 }
 
+.name-input,
 .news-input,
 .news-textarea {
   width: 90%;
@@ -101,6 +102,9 @@
   background: #222;
   color: #fff;
   font-size: 1rem;
+}
+.news-input {
+  margin-bottom: 10px;
 }
 
 .news-textarea {
@@ -133,6 +137,7 @@
 }
 
 .coin-select {
+  width: 94%;
   background: #222;
   color: #fff;
   border-radius: 8px;

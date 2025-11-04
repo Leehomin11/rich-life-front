@@ -26,21 +26,23 @@ function Content({ selectedDate, userId }) {
     5: "😄",
   };
 
-  // ✅ 다이어리 가져오기
   useEffect(() => {
-    console.log("📅 Content가 불러오는 날짜:", selectedDate.toISOString());
-    const fetchDiaries = async () => {
-      if (!userId) {
-        setError("사용자 ID가 없습니다. 다시 로그인해주세요.");
-        return;
-      }
+    if (!userId) {
+      setDiary(null);
+      setTempTitle("");
+      setTempBody("");
+      setCoinSymbol("ETH");
+      setTempMood(3);
+      setTempNewsLink("");
+      return;
+    }
 
+    const fetchDiaries = async () => {
       if (!selectedDate || isNaN(new Date(selectedDate))) {
         console.log("selectedDate가 아직 초기화되지 않음, fetch 중단");
         return;
       }
 
-      // ✅ 날짜가 바뀌면 기존 상태 먼저 리셋
       setDiary(null);
       setTempTitle("");
       setTempBody("");
@@ -53,14 +55,11 @@ function Content({ selectedDate, userId }) {
         const res = await api.get(`/api/diaries/user/${userId}`);
         let diaries = res.data.diaries || res.data;
 
-        const selectedDateStr = `${selectedDate.getFullYear()}-${(
-          selectedDate.getMonth() + 1
+        const selectedDateStr = new Date(
+          selectedDate.toLocaleString("en-US", { timeZone: "America/New_York" })
         )
-          .toString()
-          .padStart(2, "0")}-${selectedDate
-          .getDate()
-          .toString()
-          .padStart(2, "0")}`;
+          .toISOString()
+          .split("T")[0];
 
         const foundDiary = diaries.find((d) => d.entryDate === selectedDateStr);
 
@@ -71,13 +70,6 @@ function Content({ selectedDate, userId }) {
           setCoinSymbol(foundDiary.coinSymbol);
           setTempMood(foundDiary.mood);
           setTempNewsLink(foundDiary.newsLink || "");
-        } else {
-          setDiary(null);
-          setTempTitle("");
-          setTempBody("");
-          setCoinSymbol("ETH");
-          setTempMood(3);
-          setTempNewsLink("");
         }
       } catch (err) {
         setError("다이어리를 불러오지 못했습니다.");
@@ -88,7 +80,6 @@ function Content({ selectedDate, userId }) {
     fetchDiaries();
   }, [selectedDate, userId]);
 
-  // ✅ 코인 시세 가져오기
   useEffect(() => {
     const fetchCoinPrice = async () => {
       if (!coinSymbol) return;
@@ -107,7 +98,6 @@ function Content({ selectedDate, userId }) {
     return () => clearInterval(interval);
   }, [coinSymbol]);
 
-  // ✅ 다이어리 수정 및 저장
   const handleEditToggle = async () => {
     if (isEditing) {
       if (!userId) {
@@ -136,14 +126,14 @@ function Content({ selectedDate, userId }) {
     setIsEditing(!isEditing);
   };
 
-  const handleNewDiary = () => {
-    setTempTitle("");
-    setTempBody("");
-    setCoinSymbol("ETH");
-    setTempMood(3);
-    setTempNewsLink("");
-    setIsEditing(true);
-  };
+  // const handleNewDiary = () => {
+  //   setTempTitle("");
+  //   setTempBody("");
+  //   setCoinSymbol("ETH");
+  //   setTempMood(3);
+  //   setTempNewsLink("");
+  //   setIsEditing(true);
+  // };
 
   return (
     <div className="content">
@@ -166,7 +156,7 @@ function Content({ selectedDate, userId }) {
             type="text"
             value={tempTitle}
             onChange={(e) => setTempTitle(e.target.value)}
-            className="news-input"
+            className="name-input"
             placeholder="제목을 입력하세요"
           />
           <textarea
@@ -203,7 +193,12 @@ function Content({ selectedDate, userId }) {
           {diary.newsLink && (
             <div className="news-link">
               <a
-                href={diary.newsLink}
+                href={
+                  diary.newsLink.startsWith("http://") ||
+                  diary.newsLink.startsWith("https://")
+                    ? diary.newsLink
+                    : `https://${diary.newsLink}`
+                }
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -215,15 +210,14 @@ function Content({ selectedDate, userId }) {
           <div className="created-at">
             작성일: {new Date(diary.createdAt).toLocaleString()}
           </div>
+          <div className="coin-info">
+            <span className="coin-label">오늘의 {coinSymbol} 시세</span>
+            <span className="coin-price">{coinPrice}</span>
+          </div>
         </>
       ) : (
         <p className="no-diary">이 날짜에 작성된 다이어리가 없습니다.</p>
       )}
-
-      <div className="coin-info">
-        <span className="coin-label">오늘의 {coinSymbol} 시세</span>
-        <span className="coin-price">{coinPrice}</span>
-      </div>
 
       <div className="news-actions">
         <button className="news-btn" onClick={handleEditToggle}>

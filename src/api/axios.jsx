@@ -6,3 +6,5 @@ const api = axios.create({
 });
 
 export default api;
+
+// 사용 안함

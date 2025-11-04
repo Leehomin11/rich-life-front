@@ -21,7 +21,6 @@ function Profile() {
 
   const navigate = useNavigate();
 
-  // 로그인 상태 및 사용자 정보 확인
   useEffect(() => {
     const userId = localStorage.getItem("userId");
     if (userId) {
@@ -37,7 +36,6 @@ function Profile() {
     }
   }, []);
 
-  // 사용자 정보 조회
   const fetchUserInfo = async (userId) => {
     try {
       const res = await api.get(`/api/users/${userId}`);
@@ -60,7 +58,6 @@ function Profile() {
     }
   };
 
-  // 프로필 수정
   const handleEdit = async () => {
     if (isEditing) {
       try {

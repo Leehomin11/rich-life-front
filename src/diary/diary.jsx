@@ -7,9 +7,8 @@ import "./diary.css";
 
 function Diary() {
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const userId = localStorage.getItem("id");
+  const userId = localStorage.getItem("userId");
 
-  // ✅ 페이지 처음 들어올 때 오늘 날짜로 강제 세팅
   useEffect(() => {
     setSelectedDate(new Date());
   }, []);

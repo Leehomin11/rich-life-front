@@ -110,7 +110,7 @@ function Main2() {
                     activeTab2 === "font3" ? "active" : ""
                   }`}
                 >
-                  코인일기3
+                  일지 작성
                 </button>
               </div>
               <div className="spa2-text">
@@ -262,7 +262,7 @@ function Main2() {
                 )}
                 {activeTab2 === "font3" && (
                   <div className="spa2-item">
-                    <p>3</p>
+                    <p>직접 일지를 작성하시고 필요한 정보를 기록하세요.</p>
                   </div>
                 )}
               </div>
